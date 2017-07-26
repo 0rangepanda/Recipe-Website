@@ -34,7 +34,7 @@ class RecipeAdmin(admin.ModelAdmin):
 
 
 
-admin.site.register(MyUser)
+admin.site.register(User_Content)
 admin.site.register(Ingredient_buylink)
 admin.site.register(Recipe, RecipeAdmin)
 

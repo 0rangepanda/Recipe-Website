@@ -56,7 +56,7 @@ class RecipeDetailView(DetailView):
         # TODO: Reduce query times, currently 6
         return context
 
-        
+
 
 
 
@@ -73,8 +73,6 @@ class RecipeCreate(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse('recipe:index')
 
-    # We populate the context with the forms. Here I'm sending
-    # the inline forms in `inlines`
     def get_context_data(self, **kwargs):
         context = super(RecipeCreate, self).get_context_data(**kwargs)
         if self.request.POST:
@@ -91,8 +89,8 @@ class RecipeCreate(LoginRequiredMixin, CreateView):
         inlines = context['inlines']
 
         if inlines.is_valid() and form.is_valid():
-            self.object = form.save()
-
+            self.object = form.save(commit=False)
+    
             if self.request.user:
                 self.object.user = self.request.user # NOTE: Not added_by
             self.object.save()

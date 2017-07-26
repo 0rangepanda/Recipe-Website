@@ -33,13 +33,10 @@ UNIT_TYPE = (
  # Can user add new unit type?
 
 
-class MyUser(models.Model):
-    usr_name = models.CharField(max_length=NAME_MAX_LENGTH)
-    usr_id = models.CharField(max_length=NAME_MAX_LENGTH)
-    #passwd = models.CharField(max_length=NAME_MAX_LENGTH, blank=True, null=True)
+class User_Content(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='content')
 
-    def __str__(self):              # __unicode__ on Python 2
-        return self.usr_name
+
 
 class Ingredient_buylink(models.Model):
     # NOTE: to store all our buylinks of ingredients
@@ -92,11 +89,7 @@ class Recipe(models.Model):
 
     direction = models.TextField(blank = True, default = '') # one big HTML
 
-    user = models.ForeignKey(MyUser,on_delete=models.CASCADE)# one user can have many recipes
-
-    # NOTE: split to another model for frequently updating
-    #total_viewing = models.IntegerField()
-    #total_rating = models.IntegerField()
+    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='recipe')# one user can have many recipes
 
     def __str__(self):              # __unicode__ on Python 2
         return self.name

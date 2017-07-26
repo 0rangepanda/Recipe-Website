@@ -19,7 +19,7 @@ class SignUpForm(UserCreationForm):
 class RecipeForm(ModelForm):
     class Meta:
         model = Recipe
-        exclude = ['ingredients_usage']
+        exclude = ['ingredients_usage','user']
 
 class RecipeUpdateForm(RecipeForm):
     class Meta:
