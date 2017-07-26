@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block sidebar %}
+        <form id="father-form" method="GET">
+        <div class="container">
+        <h3>Search</h3>
+        {{ form.management_form }}
+          <ul class="breadcrumb">
+          {% for f in form %}
+            <div class="span7">{{ f.label }}<br />{{ f }}
+
+            <! Form Input Error Information>
+              {% if f.errors %}
+                  {% for v in f.errors %}
+                    <br /><span style="color:red;">{{ v }}</span>
+                  {% endfor %}
+              {% endif %}
+
+            </div>
+          {% endfor %}
+          </ul>
+        <input type="submit" class="btn btn-primary" value="Search">
+
+        </div>
+        </form>
+{% endblock %}
+
+        <hr />
+
+{% block content %}
+        <div class="container">
+        <h1>Result</h1>
+
+        <p>Total results: {{ num_results }}</p>
+
+        {% if recipe_list %}
+            <ul>
+            {% for recipe in recipe_list %}
+                <li><a href="{% url 'recipe:detail' recipe.id %}">{{ recipe.name }}</a>  Publish Date:{{ recipe.pub_date }} Rate:{{ recipe.status.total_rating }} View:{{ recipe.status.total_viewing }}</li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>No recipes are available.</p>
+        {% endif %}
+
+        {% load core_tags %}
+        <div class="pagination">
+           <span class="step-links">
+
+               {% if recipe_list.has_previous %}
+                     <a href="?{% url_replace p=1%}"> << </a>
+               {% endif %}
+
+               {% if recipe_list.has_previous %}
+                     <a href="?{% url_replace p=recipe_list.previous_page_number %}"> < </a>
+               {% endif %}
+
+               <span class="current">
+                   Page {{ recipe_list.number }} of {{ recipe_list.paginator.num_pages }}
+               </span>
+
+               {% if recipe_list.has_next %}
+                    <a href="?{% url_replace p=recipe_list.next_page_number%}"> > </a>
+               {% endif %}
+
+               {% if recipe_list.has_next %}
+                     <a href="?{% url_replace p=recipe_list.paginator.num_pages%}"> >> </a>
+               {% endif %}
+           </span>
+        </div>
+
+        </div>
+
+{% endblock %}

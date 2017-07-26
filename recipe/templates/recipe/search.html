@@ -1,0 +1,20 @@
+<form id="father-form" method="POST" enctype="multipart/form-data" action=".">
+{% csrf_token %}
+
+{{ form.management_form }}
+<div class="row">
+  {% for f in form %}
+    <div class="span3">{{ f.label }}<br />{{ f }}
+      {% if f.errors %}
+          {% for v in f.errors %}
+            <br /><span style="color:red;">{{ v }}</span>
+          {% endfor %}
+      {% endif %}
+    </div>
+ {% endfor %}
+</div>
+<hr />
+
+<a href="{% url 'recipe:search-result' %}" class="btn btn-primary">Search</a>
+
+</form>

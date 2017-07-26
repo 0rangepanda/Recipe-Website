@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>{{ recipe.name }}</h1>
+<form id="father-form" method="POST" enctype="multipart/form-data" action=".">
+{% csrf_token %}
+
+{{ form.management_form }}
+<div class="row">
+  {% for f in form %}
+    <div class="span3">{{ f.label }}<br />{{ f }}
+      {% if f.errors %}
+          {% for v in f.errors %}
+            <br /><span style="color:red;">{{ v }}</span>
+          {% endfor %}
+      {% endif %}
+    </div>
+ {% endfor %}
+</div>
+<hr />
+
+
+{{ inlines.management_form }}
+<h2>Ingredients Usage:</h2>
+<table class="table-striped">
+ <table>
+ {%  for f2 in inlines %}
+   <tr id="{{ f2.prefix }}-row">
+      {% for i in f2 %}
+        <td>
+           {{ i }}{% if i.errors %}<span style="color:red;">{{ i.errors }}</span>{% endif %}
+        </td>
+      {% endfor %}
+   </tr>
+ {% endfor %}
+</table>
+
+<input type="submit" class="btn btn-primary" value="Save Recipe &rarr;">
+<a href="{% url 'recipe:delete' recipe.id %}" class="btn btn-primary">Delete</a>
+</form>
+
+<script type="text/javascript">
+    $(function() {
+        $('#father-form tr').formset({
+            prefix: '{{ inlines.prefix }}'
+        });
+    })
+</script>
+
+{% endblock %}

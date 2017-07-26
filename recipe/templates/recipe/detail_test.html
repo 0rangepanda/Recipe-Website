@@ -1,0 +1,29 @@
+<body>
+<h1>{{ recipe.name }}</h1>
+<p>Categorie I: {{ recipe.categorie }}</p>
+<p>Categorie II: {{ recipe.categorieII }}</p>
+<p>Preparation Time: {{ recipe.prep_time }}</p>
+<p>Cook Time: {{ recipe.cook_time }}</p>
+<p>Video Link: {{ recipe.video_link }}</p>
+<p>Orignial Link: {{ recipe.origin_link }}</p>
+<p>Direction: {{ recipe.direction }}</p>
+<p>Created by: {{ recipe.user }}</p>
+<p>Published: {{ recipe.pub_date|date }}</p>
+<p>Date: {{ now|date }}</p>
+
+<p>Rate: {{ recipe.status.total_rating }}</p>
+<p>Total Viewing: {{ recipe.status.total_viewing }}</p>
+
+<h2>Ingredients</h2>
+{% if ingredients %}
+    <ul>
+    {% for item in ingredients %}
+        <li> {{ item.name }} : {{ item.amount }} {{ item.unit }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No ingredients are available.</p>
+{% endif %}
+
+<a href="{% url 'recipe:update' pk=recipe.id %}" class="btn btn-primary">Edit Recipe</a>
+</body>
